@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Comment } from '../shared/comment.model';
 import { Post } from '../shared/post.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostsService {
+  
 
   posts: Post[] = new Array<Post>();
 
@@ -24,6 +26,7 @@ export class PostsService {
   }
 
   add(post: Post) {
+    post.comments = [];
     let newLength = this.posts.push(post);
     let index = newLength - 1;
     return index;
@@ -35,6 +38,13 @@ export class PostsService {
     this.posts.splice(id, 1);
   }
 
+
+  addComment(postId: number, name:string, body:string) {
+    let comment:Comment = new Comment();
+    comment.name = name;
+    comment.body = body;
+    this.posts[postId].comments.push(comment);
+  }
 
 
 

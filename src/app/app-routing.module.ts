@@ -9,7 +9,7 @@ import { PostDetailsComponent } from './pages/post-details/post-details.componen
 import { PostsListComponent } from './pages/posts-list/posts-list.component';
 
 const routes: Routes = [
-  {path: '', redirectTo:'auth', pathMatch: 'full'},
+  {path: '', redirectTo:'auth/login', pathMatch: 'full'},
 
   {path:'auth', component:MainLayoutAuthenticationComponent,children:[
     {path:'login', component: LoginPageComponent},
