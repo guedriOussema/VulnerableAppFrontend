@@ -14,31 +14,43 @@ export class PostDetailsComponent implements OnInit {
 
 
   post: Post;
-  postId: number;
-  comment: Comment;
+  postId: string;
+  comment: Comment = new Comment();
+  comments: Comment[] = new Array<Comment>();
 
   constructor(private postService: PostsService,private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit(): void {
 
     this.post = new Post();
-    this.comment = new Comment();
 
     this.route.params.subscribe((params: Params) => {
-      if (params.id) {
-        if(this.postService.get(params.id)){
-          this.post = this.postService.get(params.id);
-        this.postId = params.id;
-        } else {
-          this.router.navigateByUrl("/posts");
-        }
+      if (params.id != 'new') {
+
+         this.postService.getPostById(params.id).subscribe(
+           (response: any) =>{
+             this.post = response[0];
+             this.postId = params.id;
+
+             this.postService.getComments(this.postId).subscribe((res: any) => {
+               this.comments = res;
+             })
+             
+
+           },
+           (error) => {this.router.navigateByUrl("/posts");}
+         );
+
       }
+      
     })
 
   }
 
   onSubmit(form:NgForm){
-    this.postService.addComment(this.postId, form.value.name, form.value.body);
+    this.postService.addComments(this.postId, form.value.name, form.value.body).subscribe((response: any) => {
+      this.comments.push(response);
+    });
   }
 
 

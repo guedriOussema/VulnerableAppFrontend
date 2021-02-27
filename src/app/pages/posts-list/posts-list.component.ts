@@ -83,14 +83,24 @@ export class PostsListComponent implements OnInit {
 
     posts: Post[] = new Array<Post>();
 
-  constructor(private postsService: PostsService) { }
+  constructor(private postsService: PostsService) {
+    
+   }
 
   ngOnInit(): void {
-    this.posts = this.postsService.getAll();
+   
+    this.postsService.getPosts().subscribe((response: any) => {
+      this.posts = response;
+    })
+    
   }
 
-  deletePost(id: number){
-    this.postsService.delete(id);
+  deletePost(post: Post){
+    let index = this.posts.indexOf(post);
+    this.postsService.deletePost(post).subscribe((response: any) => {
+      console.log(response);
+      this.posts.splice(index,1);
+    });
   }
   
 }

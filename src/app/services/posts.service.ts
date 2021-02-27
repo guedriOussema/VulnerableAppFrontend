@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Comment } from '../shared/comment.model';
 import { Post } from '../shared/post.model';
+import { WebRequestService } from './web-request.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,40 +11,36 @@ export class PostsService {
 
   posts: Post[] = new Array<Post>();
 
-  constructor() { }
+  constructor(private webReqService: WebRequestService) { }
 
 
-  getAll(){
-    return this.posts;
+
+  addPost(post: Post){
+    return this.webReqService.post('posts', post);
   }
 
-  get(id:number) {
-    return this.posts[id];
+  getPosts(){
+    return this.webReqService.get('posts');
   }
 
-  getId(post: Post) {
-    return this.posts.indexOf(post);
+  deletePost(post){
+    return this.webReqService.delete(`posts/${post._id}`);
   }
 
-  add(post: Post) {
-    post.comments = [];
-    let newLength = this.posts.push(post);
-    let index = newLength - 1;
-    return index;
+  getPostById(id: string){
+    return this.webReqService.getElementById(`posts/${id}`);
   }
 
-
-
-  delete(id:number) {
-    this.posts.splice(id, 1);
-  }
-
-
-  addComment(postId: number, name:string, body:string) {
-    let comment:Comment = new Comment();
+  addComments(postId: string, name:string, body:string){
+    let comment: Comment = new Comment();
     comment.name = name;
     comment.body = body;
-    this.posts[postId].comments.push(comment);
+    comment._postId = postId;
+    return this.webReqService.post(`posts/${postId}/comments`, comment);
+  }
+
+  getComments(postId: string){
+    return this.webReqService.get(`posts/${postId}/comments`);
   }
 
 

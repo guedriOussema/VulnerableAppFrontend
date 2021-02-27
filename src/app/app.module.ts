@@ -15,6 +15,7 @@ import { LoginPageComponent } from './pages/auth-pages/login-page/login-page.com
 import { SignupPageComponent } from './pages/auth-pages/signup-page/signup-page.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { MainLayoutAuthenticationComponent } from './pages/main-layout-authentication/main-layout-authentication.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MainLayoutAuthenticationComponent } from './pages/main-layout-authentic
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
