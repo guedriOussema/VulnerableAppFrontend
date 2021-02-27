@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -8,13 +9,17 @@ import { Router } from '@angular/router';
 })
 export class MainLayoutComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   onNavigateToHome(){
     this.router.navigateByUrl('posts');
+  }
+
+  logout(){
+    this.authService.logout();
   }
 
 }

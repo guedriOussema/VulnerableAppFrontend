@@ -23,7 +23,9 @@ export class UserDetailsComponent implements OnInit {
 
   onFormSubmit(form: NgForm) {
     console.log(form);
-    
+    if (form.valid) {
+      this.formSubmit.emit(form.value);
+    }
   }
 
 }

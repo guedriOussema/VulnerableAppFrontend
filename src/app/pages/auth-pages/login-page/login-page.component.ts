@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/user.model';
+import { AuthService } from '../../../services/auth.service';
+import { HttpResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-login-page',
@@ -11,15 +14,19 @@ import { User } from 'src/app/shared/user.model';
 export class LoginPageComponent implements OnInit {
 
   user: User = new User();
-  constructor(private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   onFormSubmit(form: NgForm) {
-    console.log("ng form from login");
     console.log(form);
-    this.router.navigateByUrl('/');
+    if (form.valid) {
+      this.authService.login(form.value.email, form.value.password).subscribe((res: HttpResponse<any>) => {
+        console.log(res);
+        this.router.navigateByUrl('/posts');
+      })
+    }
   }
 
 }
